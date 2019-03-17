@@ -17,16 +17,20 @@ namespace mnist {
     struct image{
         int *elements;
     };
+
+    struct imageF{
+        float *elements;
+    };
     
     struct labeledPixelGroup{
         int label;
         image img;
     };
     
-    int readNextAsInt(std::fstream &file);
     std::vector<int> readLabels(const std::string &filename);
     std::vector<mnist::image> readImage(const std::string &filename);
     std::vector<labeledPixelGroup>  readBoth(const std::string &labelFilename, const std::string &imageFilename);
 }
 
+int readNextAsInt(std::fstream &file);
 #endif /* mnistdsetreader_hpp */

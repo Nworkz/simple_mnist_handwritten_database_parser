@@ -1,0 +1,6 @@
+*._
+*.vscode
+tasks.json
+/dataset
+*.o
+*.o.dSYM/

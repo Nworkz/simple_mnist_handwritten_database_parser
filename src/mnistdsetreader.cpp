@@ -19,13 +19,13 @@ std::vector<mnist::labeledPixelGroup> mnist::readBoth(const std::string &labelFi
     std::vector<mnist::labeledPixelGroup> lpgs;
     
     if(labelFile.is_open() && imageFile.is_open()){
-        if(mnist::readNextAsInt(labelFile) == LABEL_KEY && mnist::readNextAsInt(imageFile) == IMAGE_KEY){
+        if(readNextAsInt(labelFile) == LABEL_KEY && readNextAsInt(imageFile) == IMAGE_KEY){
             //read for label
-            int lFSize = mnist::readNextAsInt(labelFile);
+            int lFSize = readNextAsInt(labelFile);
             //read for image
-            int imgFSize = mnist::readNextAsInt(imageFile);
-            int w = mnist::readNextAsInt(imageFile);
-            int h = mnist::readNextAsInt(imageFile);
+            int imgFSize = readNextAsInt(imageFile);
+            int w = readNextAsInt(imageFile);
+            int h = readNextAsInt(imageFile);
             
             if(lFSize == imgFSize){
                 char *lblBuffer = new char[lFSize];
@@ -41,7 +41,7 @@ std::vector<mnist::labeledPixelGroup> mnist::readBoth(const std::string &labelFi
                     imageFile.read(pixelBuffer, w*h);
                     
                     for(int j = 0; j < w * h;j++){
-                        lpg.img.elements[j] = (int)*pixelBuffer++;
+                        lpg.img.elements[j] = *pixelBuffer++;
                     }
                     
                     lpgs.push_back(lpg);
@@ -64,10 +64,10 @@ std::vector<mnist::image> mnist::readImage(const std::string &filename){
     std::vector<mnist::image> images;
     
     if(file.is_open()){
-        if(mnist::readNextAsInt(file) == IMAGE_KEY){
-            int size = mnist::readNextAsInt(file);
-            int w = mnist::readNextAsInt(file);
-            int h = mnist::readNextAsInt(file);
+        if(readNextAsInt(file) == IMAGE_KEY){
+            int size = readNextAsInt(file);
+            int w = readNextAsInt(file);
+            int h = readNextAsInt(file);
             
             //this thing is really ugly; just make this work for now
             //and make this thing beautifl later
@@ -80,7 +80,7 @@ std::vector<mnist::image> mnist::readImage(const std::string &filename){
                 file.read(buffer,w*h);
 
                 for(int j = 0; j < w * h;j++){
-                    image.elements[j] = (int)*buffer++;
+                    image.elements[j] = *buffer++;
                 }
                 
                 images.push_back(image);
@@ -101,8 +101,8 @@ std::vector<int> mnist::readLabels(const std::string &filename){
     std::vector<int> labels = std::vector<int>();
     
     if(file.is_open()){
-        if(mnist::readNextAsInt(file) == LABEL_KEY){
-            int size = mnist::readNextAsInt(file);
+        if(readNextAsInt(file) == LABEL_KEY){
+            int size = readNextAsInt(file);
             
             char *buffer = new char[size];
             file.read(buffer,size);
@@ -110,7 +110,7 @@ std::vector<int> mnist::readLabels(const std::string &filename){
             //I really don't know if this is a good idea; but it works
             for(int i = 0; i < size; ++i){
                 //*labels++ = (int)*buffer++;
-                labels.push_back((int)*buffer++);
+                labels.push_back(*buffer++);
             }
             
         }else{
@@ -124,7 +124,7 @@ std::vector<int> mnist::readLabels(const std::string &filename){
 }
 
 
-int mnist::readNextAsInt(std::fstream &file){
+int readNextAsInt(std::fstream &file){
     uint32_t ret;
     file.read(reinterpret_cast<char*>(&ret), 4);
     ret = ((ret << 8) & 0xFF00FF00) | ((ret >> 8) & 0xFF00FF);
