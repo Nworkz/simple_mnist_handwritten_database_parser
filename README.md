@@ -10,6 +10,22 @@ readImage, readLabels, and readBoth are located inside the mnist namespace
 std::vector<mnist::image> images = mnist::readImage("./dataset/train-images.idx3-ubyte");
 ```
 
+# if you want labels only
+
+```c++
+
+std::vector<int> labels = mnist::readLabels("./dataset/train-labels.idx1-ubyte");
+
+```
+  
+# if you want to read both
+
+```c++
+
+std::vector<mnist::labeledPixelGroup> lpgs = mnist::readBoth("./dataset/train-labels.idx1-ubyte", "./dataset/train-images.idx3-ubyte")
+
+```
+
 # sample of accesing the pixels
 
 ```c++
@@ -29,22 +45,3 @@ std::vector<mnist::image> images = mnist::readImage("./dataset/train-images.idx3
     }
     
 ```
-
-# if you want labels only
-
-```c++
-
-std::vector<int> labels = mnist::readLabels("./dataset/train-labels.idx1-ubyte");
-
-```
-  
-# if you want to read both
-
-```c++
-
-std::vector<mnist::labeledPixelGroup> lpgs = mnist::readBoth("./dataset/train-labels.idx1-ubyte", "./dataset/train-images.idx3-ubyte")
-
-```
-
-
-
